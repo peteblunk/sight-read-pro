@@ -308,7 +308,7 @@ export default function SightReadingApp() {
     const endVal = getNoteValue(config.max);
     
     const startOctave = parseNote(config.min)?.octave || 3;
-    const endOctave = parseNote(maxNote)?.octave || 5; // Fixed small reference bug from earlier version
+    const endOctave = parseNote(config.max)?.octave || 5;
     
     for (let o = startOctave; o <= endOctave + 1; o++) {
         NOTE_NAMES.forEach(n => {
@@ -320,9 +320,10 @@ export default function SightReadingApp() {
         });
     }
 
-    if (notes.length === 0) return; 
+    if (notes.length === 0) return; // Safety
 
     let newNote;
+    // Attempt to find a new note, but don't loop forever if only 1 note exists
     let attempts = 0;
     do {
       newNote = notes[Math.floor(Math.random() * notes.length)];
